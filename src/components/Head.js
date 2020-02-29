@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
 
 export const Header = styled.header`
   display: grid;
@@ -30,16 +31,11 @@ export const H1 = styled.h1`
   }
 `;
 
-// type Props = {
-//   title: string;
-//   sortInstructions: string;
-//   searchInstructions: string;
-// };
-
 function Head({
   title,
   sortInstructions,
   searchInstructions,
+  editInstructions
 }) {
   return (
     <Header>
@@ -48,8 +44,16 @@ function Head({
         instructions:
         <h3>{sortInstructions}</h3>
         <h3>{searchInstructions}</h3>
+        <h3>{editInstructions}</h3>
       </div>
     </Header>
   );
 };
 export default Head;
+
+Head.propTypes = {
+  title: PropTypes.string.isRequired,
+  sortInstructions: PropTypes.string.isRequired,
+  searchInstructions: PropTypes.string.isRequired,
+  editInstructions: PropTypes.string.isRequired
+};

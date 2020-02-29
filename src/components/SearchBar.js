@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from "styled-components";
+import { media } from "../style-utils/media";
+import PropTypes from "prop-types";
 
 export const SearchContainer = styled.span`
   display: flex;
@@ -35,6 +37,10 @@ export const NoResults = styled.div`
   font-size: 2rem;
   & > * {
     transform: rotate(27deg);
+    ${media.tablet`
+      transform: rotate(0deg);
+      font-size: 1.8rem;
+    `}
   }
 `;
 
@@ -62,3 +68,13 @@ export default function SearchBar({
     </>
   );
 }
+
+SearchBar.propTypes = {
+  searchTerm: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  searchResults: PropTypes.arrayOf(PropTypes.object),
+  tableRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(HTMLTableElement) })
+  ]).isRequired
+};

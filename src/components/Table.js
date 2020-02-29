@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
 import { ArrowUpCircle, ArrowDownCircle } from "react-feather";
+import { media } from "../style-utils/media";
+import Editable from "./Editable";
 
 export const Table = styled.table`
   border-collapse: collapse;
@@ -16,6 +19,9 @@ export const Table = styled.table`
   tbody {
     width: 100%;
   }
+  ${media.tablet`
+    width: 100%;
+  `}
 `;
 
 export const TableHead = styled.thead`
@@ -46,7 +52,7 @@ export const TableRow = styled.tr`
   display: grid;
   justify-content: center;
   align-items: center;
-  line-height: 1.2;
+  line-height: 2;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   & > * {
     display: flex;
@@ -91,12 +97,15 @@ export const Cell = styled.td`
 
 export default function TableComponent({
   tableRef,
+  mainRef,
   searchResults,
   tableHeaders,
   onSortChange,
   sortDirections,
-  tableData
+  tableData,
+  handleEdit
 }) {
+
   return (
     <>
       <Table ref={tableRef}>
@@ -117,12 +126,17 @@ export default function TableComponent({
             (item, i) => (
               <TableRow key={item.id}>
                 {Object.keys(item).map((key, headerIndex) => (
-                  <Cell
-                    ford={key === "model"}
+                  <Editable
+                    mainRef={mainRef}
+                    ford={key === "model" ? 1 : 0}
                     key={tableHeaders[headerIndex] + item[key]}
-                  >
-                    {item[key] === "Ford" ? <b>{item[key]}</b> : item[key]}
-                  </Cell>
+                    cellInfo={{ item, i }}
+                    text={item[key]}
+                    property={key}
+                    edit={handleEdit}
+                    bold={item[key] === "Ford"}
+                    // bold={item.manufacturer === "Ford"} //uncomment this line and comment out line above for whole row bold
+                  />
                 ))}
               </TableRow>
             )
@@ -133,4 +147,19 @@ export default function TableComponent({
   );
 }
 
-// {/* {item.manufacturer === "Ford" ? ( {/* replace line 244 with this for full row in bold*/} */}
+TableComponent.propTypes={
+  mainRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(HTMLElement) })
+]).isRequired,
+  tableRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(HTMLTableElement) })
+]).isRequired,
+  searchResults: PropTypes.arrayOf(PropTypes.object),
+  tableHeaders: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onSortChange: PropTypes.func.isRequired,
+  sortDirections: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.object.isRequired),
+  handleEdit: PropTypes.func.isRequired
+}

@@ -14,6 +14,5 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
       ${css(...args)}
     }
   `;
-  console.log({ accumulator });
   return accumulator;
 }, {});

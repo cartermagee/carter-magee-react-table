@@ -12,6 +12,9 @@ const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  input:focus{
+    outline: none;
+  }
 `;
 
 export default GlobalStyles
