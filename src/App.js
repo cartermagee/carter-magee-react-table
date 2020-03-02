@@ -28,7 +28,7 @@ export default function App() {
   const initialTableData = () => JSON.parse(window.localStorage.getItem("data")) || [];
   const initialTableHeaders = () => {
     const tData = initialTableData();
-    if (tData && tData.length > 0) Object.keys(tData[0]);
+    if (tData && tData.length > 0) return Object.keys(tData[0]);
     return [];
       };
 
