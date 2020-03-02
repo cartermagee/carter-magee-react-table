@@ -84,7 +84,7 @@ export default function Editable({
         >
           <Input
             ref={inputRef}
-            type="text"
+            type={property === "id" ? "number" : "text"}
             name="cellObj"
             placeholder={text}
             value={cellObj.item.property}
