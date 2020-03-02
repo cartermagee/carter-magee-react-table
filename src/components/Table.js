@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import PropTypes from 'prop-types';
 import { ArrowUpCircle, ArrowDownCircle } from "react-feather";
@@ -11,8 +11,8 @@ export const Table = styled.table`
   border-radius: 10px;
   height: fit-content;
   width: fit-content;
-  flex-grow: 2;
-  margin: 1rem;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
   min-width: 50%;
   color: #292929;
   & thead,
@@ -94,10 +94,35 @@ export const Cell = styled.td`
     filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.3));
   }
 `;
-
+export const NoResults = styled.div`
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  height: 100%;
+  z-index: 5;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 0, 0, 0.4);
+  width: ${({ tableRef }) => tableRef.current.offsetWidth}px;
+  font-weight: bold;
+  font-size: 2rem;
+  & > * {
+    transform: rotate(27deg);
+    ${media.tablet`
+      transform: rotate(0deg);
+      font-size: 1.8rem;
+    `}
+  }
+`;
+export const GridContainer = styled.div`
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  height: fit-content;
+`;
 export default function TableComponent({
-  tableRef,
-  mainRef,
+  searchTerm,
   searchResults,
   tableHeaders,
   onSortChange,
@@ -105,9 +130,9 @@ export default function TableComponent({
   tableData,
   handleEdit
 }) {
-
+  const tableRef = useRef();
   return (
-    <>
+    <GridContainer>
       <Table ref={tableRef}>
         <TableHead>
           <TableRow>
@@ -127,7 +152,6 @@ export default function TableComponent({
               <TableRow key={item.id}>
                 {Object.keys(item).map((key, headerIndex) => (
                   <Editable
-                    mainRef={mainRef}
                     ford={key === "model" ? 1 : 0}
                     key={tableHeaders[headerIndex] + item[key]}
                     cellInfo={{ item, i }}
@@ -143,19 +167,18 @@ export default function TableComponent({
           )}
         </TableBody>
       </Table>
-    </>
+      {searchTerm && searchResults.length === 0 && (
+        <NoResults tableRef={tableRef}>
+          <h1>
+            Ope! No Results <span role="img" aria-label="emoji">😬</span>
+          </h1>
+        </NoResults>
+      )}
+    </GridContainer>
   );
 }
 
 TableComponent.propTypes={
-  mainRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(HTMLElement) })
-]).isRequired,
-  tableRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(HTMLTableElement) })
-]).isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.object),
   tableHeaders: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSortChange: PropTypes.func.isRequired,

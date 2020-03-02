@@ -30,10 +30,8 @@ export const Input = styled.input`
 `;
 
 export default function Editable({
-  mainRef,
   text,
   property,
-  placeholder,
   edit,
   cellInfo,
   bold
@@ -114,7 +112,6 @@ Editable.propTypes = {
   PropTypes.number
 ]),
   property: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
   edit: PropTypes.func.isRequired,
   cellInfo: PropTypes.object.isRequired,
 }

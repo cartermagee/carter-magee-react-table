@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useState, useRef } from "react";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Head from "./components/Head";
@@ -13,7 +13,7 @@ const Main = styled.main`
   height: 100vh;
   padding: 0;
   justify-items: center;
-  grid-template-rows: 3fr 1fr 4fr 1fr;
+  grid-template-rows: auto auto 1fr auto;
   width: 100%;
   & > * {
     filter: drop-shadow(0px 5px 3px rgba(0, 0, 0, 0.5));
@@ -139,13 +139,9 @@ export default function App() {
     setTableData(data);
   }
 
-  const tableRef = useRef();
-  const mainRef = useRef();
-
   return (
-    <Main ref={mainRef}>
+    <Main>
       <GlobalStyles />
-
       <Head
         title="Carter's ReactJs Table"
         sortInstructions="Click on each table header to sort"
@@ -156,13 +152,9 @@ export default function App() {
         searchTerm={searchTerm}
         handleChange={handleChange}
         searchResults={searchResults}
-        tableRef={tableRef}
       />
       <TableComponent
-        tableRef={tableRef}
-        mainRef={mainRef}
         searchTerm={searchTerm}
-        handleChange={handleChange}
         searchResults={searchResults}
         tableHeaders={tableHeaders}
         onSortChange={onSortChange}
