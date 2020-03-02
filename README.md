@@ -22,7 +22,7 @@ ReactJs using functional components and hooks
 Without a ton of time to work on this project (3 days, before and after work) I really had to manage my time well and plan accordingly. Day 1: plan out process, create wireframe for UI, establish directory archetecture, and create basic layout using styled components. Day 2: dynamically populate table based on whether the data comes from localstorage, external API, or data provided, implement sort functionality and add/adjust styles. Day 3: implement search functionality and display propmt for no search results, implement edit inline functionality, mega cleanup of styles and unused props and variables. 
 
 ## TODOS
-1. Persist changed data in localstorage or firebase (didn't get to that but quick implementation).  
+1. Persist changed data in localstorage or firebase (didn't get to that but quick implementation).(edit DONE) 
 2. (Nice to have) implement mark.js or similar to highlight search criteria in real time. 
 3. In case the app is tested with a massive dataset with differently shaped data, fix gotcha below and implement quicksort or merge-sort sorting algorithm for sort and search functionality.
 
