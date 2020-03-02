@@ -8,7 +8,7 @@ install dependencies:
 ### yarn
 start and run the app in development mode 
 ### yarn start
-and then `yarn build` `cd build` and then `serve -s` to serve if you want 
+and then `yarn build` `cd build` and then `serve -s build` to serve if you want 
 ### OR
 visit the hosted app on Zeit NOW [https://mersive-table.now.sh](https://mersive-table.now.sh)
 
