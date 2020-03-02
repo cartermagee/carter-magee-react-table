@@ -78,7 +78,7 @@ export const TableHeader = styled.th`
     border-radius: 7px;
     filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.3));
     ${ArrowContainer} {
-      display: block;
+      display: flex;
     }
   }
 `;

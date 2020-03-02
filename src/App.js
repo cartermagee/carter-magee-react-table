@@ -24,8 +24,16 @@ const Main = styled.main`
 `;
 
 export default function App() {
-  const [tableHeaders, setTableHeaders] = useState([]);
-  const [tableData, setTableData] = useState([]);
+
+  const initialTableData = () => JSON.parse(window.localStorage.getItem("data")) || [];
+  const initialTableHeaders = () => {
+    const tData = initialTableData();
+    if (tData && tData.length > 0) return Object.keys(tData[0]);
+    return [];
+      };
+
+  const [tableData, setTableData] = useState(initialTableData);
+  const [tableHeaders, setTableHeaders] = useState(initialTableHeaders);
   const [sortDirections, setSortDirections] = useState([]);
 
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -34,14 +42,6 @@ export default function App() {
   useLayoutEffect(() => {
     if (window.localStorage.getItem("data")) {
       console.log("getting saved data from local storage");
-
-      const item = window.localStorage.getItem("data");
-      const tData = JSON.parse(item);
-
-      const hData = Object.keys(tData[0]);
-      console.log(hData);
-      setTableData(tData);
-      setTableHeaders(hData);
     } else if (false) {
       // Change to true if you're hitting some endpoint for different data BUT the shape of the data has to be an array of objects who's properties' values have to all be strings
       const fetchData = async () => {
@@ -103,6 +103,9 @@ export default function App() {
     }
   }, [searchTerm, tableData, tableHeaders]);
 
+  const persistLocalData =(data) => {
+    window.localStorage.setItem("data", JSON.stringify(data));
+  };
 
   function compareValues(key, order) {
     return function innerSort(a, b) {
@@ -131,12 +134,14 @@ export default function App() {
     let sortValueArray = [...sortDirections];
     sortValueArray.splice(i, 1, !sort);
     setSortDirections(sortValueArray);
+    persistLocalData(data);
   };
 
   const handleEdit = (obj) => {
     let data = [...tableData];
     data[obj.i] = obj.item;
     setTableData(data);
+    persistLocalData(data);
   }
 
   return (
